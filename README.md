@@ -1,4 +1,5 @@
-Misc
+**MP3 Decode Stream**
 ====
 
-Miscellaneous codes.
+Decode MP3 stream into a WaveFile Format no temp file is used.
+
