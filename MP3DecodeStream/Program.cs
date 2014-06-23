@@ -20,7 +20,7 @@ namespace MP3DecodeStream
             Console.WriteLine("Frequency: {0}", mp3Stream.Frequency);
 
             WaveFile waveFile = new WaveFile();
-            int openfileResult = waveFile.OpenFile(AppDomain.CurrentDomain.BaseDirectory + @"Sample/sample.wav", WaveFormat.WF_PCM_S16LE, false, 44100, 2);
+            int openfileResult = waveFile.OpenFile(AppDomain.CurrentDomain.BaseDirectory + @"Sample/sample.wav", WaveFormat.WF_PCM_S16LE, false, 44100, 1);
             if (openfileResult == 0)
             {
                 short[,] data = null;
@@ -38,12 +38,12 @@ namespace MP3DecodeStream
                     {
                         if (i * 4 >= ret) break;
                         //Single channel with sound mix.
-                        // p1 = (double)BitConverter.ToInt16(buffer, i * 4);
-                        // p2 = (double)BitConverter.ToInt16(buffer, i * 4 + 2);
-                        //data[0, i] = (short)((p1 * p1 + p2 * p2) / (p1 + p2));
-                        //data[0, i] = (short)((p2+p1)/2);
-                        data[0, i] = BitConverter.ToInt16(buffer, i * 4);
-                        data[1, i] = BitConverter.ToInt16(buffer, i * 4 + 2);
+                        p1 = (double)BitConverter.ToInt16(buffer, i * 4) / 32767.0;
+                        p2 = (double)BitConverter.ToInt16(buffer, i * 4 + 2) / 32767.0;
+                        data[0, i] = (short)((p1 + p2 - p1 * p2) * 32767.0);
+                        //Stero channel
+                        //data[0, i] = BitConverter.ToInt16(buffer, i * 4);
+                        //data[1, i] = BitConverter.ToInt16(buffer, i * 4 + 2);
                     }
                     waveFile.PutData(data, i);
                 }
