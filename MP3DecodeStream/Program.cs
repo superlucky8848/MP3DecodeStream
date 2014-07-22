@@ -40,7 +40,8 @@ namespace MP3DecodeStream
                         //Single channel with sound mix.
                         p1 = (double)BitConverter.ToInt16(buffer, i * 4) / 32767.0;
                         p2 = (double)BitConverter.ToInt16(buffer, i * 4 + 2) / 32767.0;
-                        data[0, i] = (short)((p1 + p2 - p1 * p2) * 32767.0);
+                        //data[0, i] = (short)((p1 + p2 - p1 * p2) * 32767.0);
+                        data[0, i] = (short)((p1 + p2) * 32767.0 / 2.0);
                         //Stero channel
                         //data[0, i] = BitConverter.ToInt16(buffer, i * 4);
                         //data[1, i] = BitConverter.ToInt16(buffer, i * 4 + 2);
